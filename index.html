@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>物理实验(下)</title>
+    <link rel="stylesheet" href="css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="space">
+    </div>
+    <div id="banner_cont">
+        <div id="banner_left">
+            <div class="banner-menu" id="banner_menu1">
+            </div>
+            <div class="banner-menu">
+            </div>
+            <div class="banner-menu">
+            </div>
+        </div>
+
+    </div>
+    <div id="menu_cont">
+        <div id="menu_tit">
+            目录
+        </div>
+        <ul id="menu_ul">
+            <li>音叉实验</li>
+            <li>液体表面张力</li>
+            <li>偏振与双折射</li>
+            <li>电路的暂态过程</li>
+            <li>转动惯量的测定</li>
+            <li>导热系数</li>
+            <li>光电效应</li>
+            <li>组合光学</li>
+            <li style="color:#AAA">访问量
+            <?php
+session_start();
+$filepath = 'count.txt';
+if ($_SESSION['temp'] == '')
+{
+    if (!file_exists($filepath))
+    {
+        $fp = fopen($filepath,'w');
+        fwrite($fp,0);
+        fclose($fp);
+        counter($filepath);
+    }else
+    {
+        counter($filepath);
+    }
+    $_SESSION['temp'] = 1;
+}
+echo file_get_contents($filepath);
+function counter($f_value)
+{
+    $fp = fopen($f_value,'r') or die('打开文件时出错。');
+    $countNum = fgets($fp,1024);
+    fclose($fp);
+    $countNum++;
+    $fpw = fopen($f_value,'w');
+    fwrite($fpw,$countNum);
+    fclose($fpw);
+}
+
+?>
+            </li>
+        </ul>
+    </div>
+    <div id="mask">
+    </div>
+    <div id="exp1" class="exp-cont">
+        <div class="exp-tit">
+            音叉实验
+        </div>
+        <div class="exp-cell exp-cell1 exp-subtit bg1">
+            改变音叉质量
+        </div>
+        <div class="exp-in-cont">
+            <div class="exp-column exp-column2">
+                <div class="exp-cell exp-cell1 bg1">
+                    m<span class="half">x</span>/g
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    f/H<span class="half">z</span>
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    (1/2πf)^2
+                </div>
+            </div>
+            <div class="exp-swiper-cont" style="width:80%" id="vue_exp1_swiper1"><!--swiper number-->
+                <div class="exp1-swiper1-container"><!--swiper number-->
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="slide in slides">
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{slide.message+"x2"}}
+                            </div>
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row1">
+                            <div class="exp-cell exp-cell1 bg2">
+                                {{slide.row2}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div><!--exp-in-cont-->
+        <div class="exp-result-cont">
+            <div class="exp-cell exp-cell1 exp-subtit bg1">
+                计算结果
+            </div>
+            <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp1_result1">
+                回归方程
+            </div>
+            <div class="exp-result-column exp-result-column2">
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp1_result2">
+                    k=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp1_result3">
+                    m<span class="little">0</span>=
+                </div>
+            </div>
+            <div class="exp-button-cont">
+                <button class="exp-run-button bg1" onclick="e1Run1()">运行</button>
+            </div>
+        </div>
+        <!--
+        <div class="exp-cell exp-cell1 exp-subtit bg1">
+            无阻尼
+        </div>
+        <div class="exp-in-cont">
+            <div class="exp-column exp-column1">
+                <div class="exp-cell exp-cell1 bg1">
+                    序号
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    f(H<span class="half">z</span>)
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    U(V)
+                </div>
+            </div>
+            <div class="exp-swiper-cont" style="width:85%" id="vue_exp1_swiper2">--><!--swiper number-->
+            <!--<div class="exp1-swiper2-container">--><!--swiper number-->
+                    <!--<div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="slide in slides">
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{slide.message}}
+                            </div>
+                            <input class="exp-cell exp-cell-input exp-cell1">
+                            <input class="exp-cell exp-cell-input exp-cell1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>--><!--exp-in-cont-->
+        <!--<div class="exp-result-cont">
+            <div class="exp-cell exp-cell1 exp-subtit bg1">
+                计算结果
+            </div>
+            <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp1_result1">
+                回归方程
+            </div>
+            <div class="exp-result-column2">
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp1_result2">
+                    k=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp1_result3">
+                    m<span class="little">0</span>=
+                </div>
+            </div>
+            <div class="exp-button-cont">
+                <button class="exp-run-button bg1">运行</button>
+            </div>
+        </div>
+        <div class="exp-cell exp-cell1 exp-subtit bg1">
+            有阻尼
+        </div>
+        <div class="exp-in-cont">
+            <div class="exp-column exp-column1">
+                <div class="exp-cell exp-cell1 bg1">
+                    序号
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    f(H<span class="half">z</span>)
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    U(V)
+                </div>
+            </div>
+            <div class="exp-swiper-cont" style="width:85%" id="vue_exp1_swiper3">--><!--swiper number-->
+                <!--<div class="exp1-swiper3-container">--><!--swiper number-->
+                    <!--<div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="slide in slides">
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{slide.message}}
+                            </div>
+                            <input class="exp-cell exp-cell-input exp-cell1">
+                            <input class="exp-cell exp-cell-input exp-cell1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>--><!--exp-in-cont-->-->
+    </div>
+    <div id="exp2" class="exp-cont">
+        <div class="exp-tit">
+            液体表面张力
+        </div>
+        <div class="exp-cell exp-cell1 exp-subtit bg1">
+            拉脱法测液体表面张力系数
+        </div>
+        <div class="exp-result-column exp-result-column4">
+            <div class="exp-cell exp-cell1 bg1">
+                g=
+            </div>
+            <div>
+                <input class="exp-cell exp-cell-input exp-cell1" id="exp2_g">
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="exp-in-cont">
+            <div class="exp-column exp-column1">
+                <div class="exp-cell exp-cell1 bg1">
+                    序号
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    m<span class="half"></span>/g
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    U<span class="half">1</span>/<span class="half">m</span>V
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    U<span class="half">2</span>/<span class="half">m</span>V
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    U<span class="half">m</span>V
+                </div>
+            </div>
+            <div class="exp-swiper-cont" style="width:85%" id="vue_exp2_swiper1"><!--swiper number-->
+                <div class="exp2-swiper1-container"><!--swiper number-->
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="slide in slides">
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{slide.message}}
+                            </div>
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row1">
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row2">
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row3">
+                            <div class="exp-cell exp-cell1 bg2">
+                                {{slide.row4}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div><!--exp-in-cont-->
+        <div class="exp-result-cont">
+            <div class="exp-cell exp-cell1 exp-subtit bg1">
+                计算结果
+            </div>
+            <div class="exp-result-column exp-result-column3">
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result1">
+                    <span class="ba">FU</span>=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result2">
+                    <span class="ba">F</span>=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result3">
+                    <span class="ba">U</span>=
+                </div>
+            </div>
+            <div class="exp-result-column exp-result-column3">
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result4">
+                    <span class="ba">F^2</span>=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result5">
+                    k=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result6">
+                    r=
+                </div>
+            </div>
+            <div class="exp-button-cont">
+                <button class="exp-run-button bg1" onclick="e2Run1()">运行</button>
+            </div>
+        </div><!--result cont-->
+        <div class="exp-in-cont">
+            <div class="exp-column exp-column1">
+                <div class="exp-cell exp-cell1 bg1">
+                    序号
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    U1/mV
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    U2/mV
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    U1-U2
+                </div>
+            </div>
+            <div class="exp-swiper-cont" style="width:85%" id="vue_exp2_swiper2"><!--swiper number-->
+                <div class="exp2-swiper2-container"><!--swiper number-->
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="slide in slides">
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{slide.message}}
+                            </div>
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row1">
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row2">
+                            <div class="exp-cell exp-cell1 bg2">
+                                {{slide.row3}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="exp-result-column exp-result-column4" style="margin-top:10px;">
+                <div class="exp-cell exp-cell1 bg1">
+                    D1/cm
+                </div>
+                <div>
+                    <input class="exp-cell exp-cell-input exp-cell1" id="exp2_d1">
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    D2/cm
+                </div>
+                <div>
+                    <input class="exp-cell exp-cell-input exp-cell1" id="exp2_d2">
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    k/cm
+                </div>
+                <div>
+                    <input class="exp-cell exp-cell-input exp-cell1" id="exp2_k">
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    σ公/ mv/m
+                </div>
+                <div>
+                    <input class="exp-cell exp-cell-input exp-cell1" id="exp2_6">
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div><!--in cont-->
+        <div class="exp-result-cont">
+            <div class="exp-cell exp-cell1 exp-subtit bg1">
+                计算结果
+            </div>
+            <div class="exp-result-column exp-result-column3">
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result_du">
+                    <span class="ba">U1-U2</span>=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result_6">
+                    σ=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result_ur">
+                    U<span class="half">r</span>=
+                </div>
+            </div>
+            <div class="exp-button-cont">
+                <button class="exp-run-button bg1" onclick="e2Run2()">运行</button>
+            </div>
+        </div>
+        <div class="exp-in-cont">
+            <div class="exp-column exp-column2">
+                <div class="exp-cell exp-cell1 bg1">
+                    序号
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    h管/mm
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    h烧/mm
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    h/mm
+                </div>
+            </div>
+            <div class="exp-swiper-cont" style="width:80%" id="vue_exp2_swiper3"><!--swiper number-->
+                <div class="exp2-swiper3-container"><!--swiper number-->
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="slide in slides">
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{slide.message}}
+                            </div>
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row1">
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row2">
+                            <div class="exp-cell exp-cell1 bg2">
+                                {{slide.row3}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="exp-in-cont">
+            <div class="exp-column exp-column2">
+                <div class="exp-cell exp-cell1 bg1">
+                    序号
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    d管上/mm
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    d管下/mm
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    d/mm
+                </div>
+            </div>
+            <div class="exp-swiper-cont" style="width:80%" id="vue_exp2_swiper4"><!--swiper number-->
+                <div class="exp2-swiper4-container"><!--swiper number-->
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="slide in slides">
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{slide.message}}
+                            </div>
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row1">
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row2">
+                            <div class="exp-cell exp-cell1 bg2">
+                                {{slide.row3}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="exp-result-column exp-result-column4" style="margin-top:10px;">
+                <div class="exp-cell exp-cell1 bg1">
+                    ρ
+                </div>
+                <div>
+                    <input class="exp-cell exp-cell-input exp-cell1" id="exp2_rou">
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    g
+                </div>
+                <div>
+                    <input class="exp-cell exp-cell-input exp-cell1" id="exp2_gg">
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    σ公
+                </div>
+                <div>
+                    <input class="exp-cell exp-cell-input exp-cell1" id="exp2_66">
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="exp-result-cont">
+            <div class="exp-cell exp-cell1 exp-subtit bg1">
+                计算结果
+            </div>
+            <div class="exp-result-column exp-result-column2">
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result_hba">
+                    <span class="ba">h</span>=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result_dba">
+                    <span class="ba">d</span>=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result_66">
+                    σ=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp2_result_urur">
+                    U<span class="half">r</span>=
+                </div>
+            </div>
+            <div class="exp-button-cont">
+                <button class="exp-run-button bg1" onclick="e2Run3()">运行</button>
+            </div>
+        </div>
+    </div>
+    <div id="exp3" class="exp-cont">
+        <div class="exp-tit">
+            偏振与双折射
+        </div>
+        <div class="exp-in-cont">
+            <div class="exp-column exp-column2">
+                <div class="exp-cell exp-cell1 bg1">
+                    θ
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    cos^2θ
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    I左
+                </div>
+                <div class="exp-cell exp-cell1 bg1">
+                    I右
+                </div>
+            </div>
+            <div class="exp-swiper-cont" style="width:80%" id="vue_exp3_swiper1"><!--swiper number-->
+                <div class="exp3-swiper1-container"><!--swiper number-->
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="slide in slides">
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{(10-slide.message)*10}}°
+                            </div>
+                            <div class="exp-cell exp-cell1 bg1">
+                                {{Math.pow(Math.cos((10-slide.message)*10/360*2*Math.PI),2).toFixed(7)}}
+                            </div>
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row1">
+                            <input class="exp-cell exp-cell-input exp-cell1" v-model="slide.row2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="exp-result-cont">
+            <div class="exp-cell exp-cell1 exp-subtit bg1">
+                计算结果
+            </div>
+            <div class="exp-cell exp-cell1 exp-subtit bg2">
+                I左和I右关于cos^2θ的回归方程
+            </div>
+            <div class="exp-result-column exp-result-column1">
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp3_result1">
+                    I左=
+                </div>
+                <div class="exp-cell exp-cell1 exp-subtit bg2" id="exp3_result2">
+                    I右=
+                </div>
+            </div>
+            <div class="exp-button-cont">
+                <button class="exp-run-button bg1" onclick="e3Run1()">运行</button>
+            </div>
+        </div>
+    </div>
+    <div id="exp4" class="exp-cont">
+        <div class="exp-tit">
+            电路的暂态过程
+        </div>
+        <div class="exp-cell exp-cell1 bg1 exp-subtit">
+            这个实验貌似比较简单噢
+        </div>
+    </div>
+    <div id="exp5" class="exp-cont">
+        <div class="exp-tit">
+            转动惯量的测定
+        </div>
+    </div>
+    <div id="exp6" class="exp-cont">
+        <div class="exp-tit">
+            导热系数
+        </div>
+    </div>
+    <div id="exp7" class="exp-cont">
+        <div class="exp-tit">
+            光电效应
+        </div>
+    </div>
+    <div id="exp8" class="exp-cont">
+        <div class="exp-tit">
+            组合光学
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="js/jquery-1.10.1.min.js"></script>
+    <script src="js/swiper-3.4.2.min.js"></script>
+    <script src="js/indexload.js"></script>
+     <script src="js/index.js"></script>
+     <script src="js/main.js"></script>
+</body>
+</html>
