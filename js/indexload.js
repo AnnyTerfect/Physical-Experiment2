@@ -218,3 +218,42 @@ var mySwiper19 = new Swiper('.exp6-swiper1-container',{
     freeMode:true
 });
 */
+var swiper51=new Swiper(".exp5-swiper1-container",{
+  freeMode:true,
+  slidesPerView: 4.5
+})
+var swiper52=new Swiper(".exp5-swiper2-container",{
+  freeMode:true,
+  slidesPerView: 4.5
+})
+var swiper53=new Swiper(".exp5-swiper3-container",{
+  freeMode:true,
+  slidesPerView: 4.5
+})
+var swiper54=new Swiper(".exp5-swiper4-container",{
+  freeMode:true,
+  slidesPerView: 3.5
+})
+
+var swiper61=new Swiper(".exp6-swiper2-container",{
+  freeMode:true,
+  slidesPerView: 4.5
+});
+var swiper62=new Swiper(".exp6-swiper1-container",{
+  freeMode:true,
+  slidesPerView: 4.5
+});
+var swiper63=new Swiper(".exp6-swiper3-container",{
+  freeMode:true,
+  slidesPerView: 4.5
+})
+var swiper71=new Swiper(".exp7-swiper1-container",{
+  freeMode:true,
+  slidesPerView: 4.5
+});
+var swiper81=new Swiper(".exp8-swiper1-container",{
+  freeMode:true,
+  slidesPerView: 3.5
+})
+
+$("#exp4,#exp5,#exp6,#exp7,#exp8").css("display","none");

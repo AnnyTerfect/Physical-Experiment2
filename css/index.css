@@ -18,6 +18,23 @@ body
 {
     clear:both;
 }
+#float_window
+{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left:50%;
+    top:50%;
+    width:100%;
+    transform:translate(-50%,-50%);
+    text-align: center;
+    font-size: 18px;
+}
+#float_window img
+{
+    width:150px;
+    height:150px;
+}
 #bg_pic
 {
     z-index:-100;
@@ -30,7 +47,6 @@ body
     background-image:url("../img/bg_pic'.jpg");
     background-position:center center;
     background-size:auto 100%;
-
 }
 #banner_cont
 {
@@ -123,10 +139,10 @@ body
     background-color:#FFF;
     color:#666F9A;
 }
-#exp4,#exp5,#exp6,#exp7,#exp8
+/*#exp4,#exp5,#exp6,#exp7,#exp8
 {
     display:none;
-}
+}*/
 .exp-cont
 {
     margin:10px;
@@ -209,6 +225,13 @@ body
 {
     width:20%;
 }
+.exp-column3
+{
+    width:30%;
+}
+.exp-column4{
+  width:33%
+}
 .bg1
 {
     background:linear-gradient(#616A95,#666F9A,#616A95);
@@ -225,20 +248,20 @@ body
 }
 .exp-cell-input
 {
-    box-sizing: border-box;
+    display:block;
     padding-left:3px;
     width:calc(100% - 2px);
-    height:21px;
+    height:25px;
     border: none;
     outline:none;
-    border-bottom:2px solid #666F9A;
+    background:url(../img/line.jpg);
     font-size: 12px;
     color:#000;
     transition: 100ms;
 }
 .exp-cell-input:focus
 {
-    font-size:13px;
+    /*font-size:13px;*/
     font-weight:500;
 }
 .half
