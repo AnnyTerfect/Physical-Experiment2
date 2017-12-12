@@ -229,15 +229,23 @@
       var id=document.getElementById(a);
       return parseFloat(id.value);
     }
-    /*转动惯量实验变量名：
-      圆柱--yzd，yzh,yzmass,iyz1,iyz2
-      圆筒--ytd1,ytd2,yth,ytmass,iyt1,iyt2
-      滑块1--hk1d1,hk1d2,hk1h,hk1mass,ihk11,ihk12
-      滑块2--hk2d1,hk2d2,hk2h,hk2mass,ihk21,ihk22
-      细杆--polel,polemass,ipole1,ipole2
-      球--balld,ballmass,iball1,iball2
-    */
+
     function expFiveFunction1(){
+      /*转动惯量实验变量名：
+        圆柱--yzd，yzh,yzmass,iyz1,iyz2
+        圆筒--ytd1,ytd2,yth,ytmass,iyt1,iyt2
+        滑块1--hk1d1,hk1d2,hk1h,hk1mass,ihk11,ihk12
+        滑块2--hk2d1,hk2d2,hk2h,hk2mass,ihk21,ihk22
+        细杆--polel,polemass,ipole1,ipole2
+        球--balld,ballmass,iball1,iball2
+        夹具--tclamp,iclamp
+        平行轴定理：5cm———25cm:pxzd5---pxzd25
+        周期：tpxzd5-tpxzd25
+        转动惯量理论值：Ippxzd5--Ippxzd25
+        转动惯量实际值：Irpxzd5--Irpxzd25
+        相对误差:urpxzd5--urpxzd25
+        转动惯量Ic
+      */
       var i01=1.78e-5,i02=2.3e-5;
       var yzd,yzh,yzmass,iyz1,iyz2;
       var ytd1,ytd2,yth,ytmass,iyt1,iyt2;
@@ -245,18 +253,19 @@
       var hk2d1,hk2d2,hk2h,hk2mass,ihk21,ihk22;
       var polel,polemass,ipole1,ipole2;
       var balld,ballmass,iball1,iball2;
+      var tclamp;
       yzd=getCvalue('yzd'),yzh=getCvalue('yzh'),yzmass=getIvalue('yzmass');
       ytd1=getCvalue('ytd1'),ytd2=getCvalue('ytd2'),yth=getCvalue('yth'),ytmass=getIvalue('ytmass');
       hk1d1=getCvalue('hk1d1'),hk1d2=getCvalue('hk1d2'),hk1h=getCvalue('hk1h'),hk1mass=getIvalue('hk1mass');
-      hk2d1=getCvalue('hk1d1'),hk2d2=getCvalue('hk1d2'),hk2h=getCvalue('hk1h'),hk2mass=getIvalue('hk1mass');
+      hk2d1=getCvalue('hk2d1'),hk2d2=getCvalue('hk2d2'),hk2h=getCvalue('hk2h'),hk2mass=getIvalue('hk2mass');
       polel=getCvalue('polel'),polemass=getIvalue('polemass');
       balld=getCvalue('balld'),ballmass=getIvalue('ballmass')
-      iyz1=(1e-7)*yzmass*yzd*yzd/8;
-      iyt1=(1e-7)*ytmass*(ytd1*ytd1+ytd2*ytd2)/8;
-      ihk11=(1e-7)*hk1mass*(((hk1d1*hk1d1+hk1d2*hk1d2)/16)+hk1h*hk1h/12);
-      ihk21=(1e-7)*hk2mass*(((hk2d1*hk2d1+hk2d2*hk2d2)/16)+hk2h*hk2h/12);
-      ipole1=(1e-7)*polemass*polel*polel/12;
-      iball1=(1e-7)*ballmass*balld*balld/10;
+      iyz1=(1e-9)*yzmass*yzd*yzd/8;
+      iyt1=(1e-9)*ytmass*(ytd1*ytd1+ytd2*ytd2)/8;
+      ihk11=(1e-9)*hk1mass*(((hk1d1*hk1d1+hk1d2*hk1d2)/16)+hk1h*hk1h/12);
+      ihk21=(1e-9)*hk2mass*(((hk2d1*hk2d1+hk2d2*hk2d2)/16)+hk2h*hk2h/12);
+      ipole1=(1e-9)*polemass*polel*polel/12;
+      iball1=(1e-9)*ballmass*balld*balld/10;
       document.getElementById('iyz1').innerHTML=String(iyz1).slice(0,9);
       document.getElementById('iyt1').innerHTML=String(iyt1).slice(0,9);
       document.getElementById('ihk11').innerHTML=String(ihk11).slice(0,9);
@@ -264,46 +273,79 @@
       document.getElementById('ipole1').innerHTML=String(ipole1).slice(0,9);
       document.getElementById('iball1').innerHTML=String(iball1).slice(0,9);
       var t0,t1,nzk,nza;
-      t0=getCvalue('t0'),t1=getCvalue('t1');
+      t0=getCvalue('t0')/10,t1=getCvalue('t1')/10;
       nzk=4*pi*pi*iyz1/(t1*t1-t0*t0);
       nza=nzk/(4*pi*pi);
       document.getElementById('t0').innerHTML=String(t0).slice(0,9);
       document.getElementById('t1').innerHTML=String(t1).slice(0,9);
       document.getElementById('nzk').innerHTML=String(nzk).slice(0,9);
       var tzwp,tyz,tyt,tball,tpole;
-      tzwp=getCvalue("tzwp"),tyz=getCvalue('tyz'),tyt=getCvalue('tyt'),tball=getCvalue('tball'),tpole=getCvalue('tpole');
+      tzwp=getCvalue("tzwp"),tyz=getCvalue('tyz'),tyt=getCvalue('tyt'),tball=getCvalue('tball'),tpole=getCvalue('tpole'),tclamp=getCvalue('tclamp');
       document.getElementById('btzwp').innerHTML=String(tzwp/10).slice(0,9);
-      document.getElementById('btyz').innerHTML=String(tyz/10).slice(0,9);
       document.getElementById('btyt').innerHTML=String(tyt/10).slice(0,9);
       document.getElementById('btball').innerHTML=String(tball/10).slice(0,9);
       document.getElementById('btpole').innerHTML=String(tpole/10).slice(0,9);
-      tzwp/=10,tyz/=10,tyt=tyt/=10,tball/=10,tpole/=10;
-      var izwp=nza*tzwp*tzwp;
+      document.getElementById('bclamp').innerHTML=String(tclamp/10).slice(0,9);
+      tzwp/=10,tyz/=10,tyt=tyt/=10,tball/=10,tpole/=10,tclamp/=10;
+      var izwp=nza*tzwp*tzwp,iclamp=nza*tclamp*tclamp;
       iyt2=nza*tyt*tyt-izwp,iyz2=nza*tyz*tyz-izwp,iball2=nza*tball*tball-i01,ipole2=nza*tpole*tpole-i02;
       document.getElementById('iyt2').innerHTML=String(iyt2).slice(0,9);
-      document.getElementById('iyz2').innerHTML=String(iyz2).slice(0,9);
       document.getElementById('izwp').innerHTML=String(izwp).slice(0,9);
       document.getElementById('iball2').innerHTML=String(iball2).slice(0,9);
       document.getElementById('ipole2').innerHTML=String(ipole2).slice(0,9);
+      document.getElementById('iclamp').innerHTML=String(iclamp).slice(0,9);
       var uryz=fabs(iyz2-iyz1)/iyz1;
       var uryt=fabs(iyt2-iyt1)/iyt1;
       var urball=fabs(iball2-iball1)/iball1;
       var urpole=fabs(ipole2-ipole1)/ipole1;
-      document.getElementById('uryz').innerHTML=String(uryz*100).slice(0,4)+'%';
+      var urclamp=fabs(iclamp-i02)/i02;
       document.getElementById('uryt').innerHTML=String(uryt*100).slice(0,4)+'%';
       document.getElementById('urball').innerHTML=String(urball*100).slice(0,4)+'%';
       document.getElementById('urpole').innerHTML=String(urpole*100).slice(0,4)+'%';
-
+      document.getElementById('urclamp').innerHTML=String(urclamp*100).slice(0,4)+'%';
+      var Ic=ihk11+ihk21+i02+ipole1;/*理论的Ic值*/
+      document.getElementById('Ic').innerHTML='I<span class="half">c</span>=I<span class="half">细杆</span>+I<span class="half">滑块1</span>+I<span class="half">滑块2</span>+I<span class="half">夹具</span>='+String(Ic).slice(0,9)
+      var pxzd5=getCvalue('pxzd5')/10,pxzd10=getCvalue('pxzd10')/10,pxzd15=getCvalue('pxzd15')/10,pxzd20=getCvalue('pxzd20')/10,pxzd25=getCvalue('pxzd25')/10;
+      document.getElementById('apxzd5').innerHTML=String(pxzd5).slice(0,9);
+      document.getElementById('apxzd10').innerHTML=String(pxzd10).slice(0,9);
+      document.getElementById('apxzd15').innerHTML=String(pxzd15).slice(0,9);
+      document.getElementById('apxzd20').innerHTML=String(pxzd20).slice(0,9);
+      document.getElementById('apxzd25').innerHTML=String(pxzd25).slice(0,9);
+      function Ip(x){
+        return Ic+(hk1mass+hk2mass)*x*x*(1e-7);
+      }/*计算转动惯量理论值*/
+      document.getElementById('Ippxzd5').innerHTML=String(Ip(5)).slice(0,9);
+      document.getElementById('Ippxzd10').innerHTML=String(Ip(10)).slice(0,9);
+      document.getElementById('Ippxzd15').innerHTML=String(Ip(15)).slice(0,9);
+      document.getElementById('Ippxzd20').innerHTML=String(Ip(20)).slice(0,9);
+      document.getElementById('Ippxzd25').innerHTML=String(Ip(25)).slice(0,9);
+      function Ir(x){
+        return nza*x*x;
+      }/*计算转动惯量实际值*/
+      document.getElementById('Irpxzd5').innerHTML=String(Ir(pxzd5)).slice(0,9);
+      document.getElementById('Irpxzd10').innerHTML=String(Ir(pxzd10)).slice(0,9);
+      document.getElementById('Irpxzd15').innerHTML=String(Ir(pxzd15)).slice(0,9);
+      document.getElementById('Irpxzd20').innerHTML=String(Ir(pxzd20)).slice(0,9);
+      document.getElementById('Irpxzd25').innerHTML=String(Ir(pxzd25)).slice(0,9);
+      function Ur(x,y){
+        return 100*fabs(x-y)/y;
+      }/*计算相对误差*/
+      document.getElementById('urpxzd5').innerHTML=String(Ur(Ir(pxzd5),Ip(5))).slice(0,4)+'%';
+      document.getElementById('urpxzd10').innerHTML=String(Ur(Ir(pxzd10),Ip(10))).slice(0,4)+'%';
+      document.getElementById('urpxzd15').innerHTML=String(Ur(Ir(pxzd15),Ip(15))).slice(0,4)+'%';
+      document.getElementById('urpxzd20').innerHTML=String(Ur(Ir(pxzd20),Ip(20))).slice(0,4)+'%';
+      document.getElementById('urpxzd25').innerHTML=String(Ur(Ir(pxzd25),Ip(25))).slice(0,4)+'%';
     }
-    /*导热实验变量名：
-      样品盘B直径-bdiam,平均值-averagebdiam,厚度-bwidth,平均值-averagebwidth,样品盘质量mass,比热容capacity;
-      散热盘C直径-cdiam,平均值-averagecdiam,厚度-cwidth,平均值-averagecwidth;
-      发热盘A稳态温度atemp,平均值-averageatemp;
-      散热盘C稳态温度ctemp,平均值-averagectemp;
-      冷却过程散热盘温度的数组ctempcold，冷却速率coldrate;
-      比热容capacity,导热系数numda;
-    */
+
       function expSixIndex(){
+        /*导热实验变量名：
+          样品盘B直径-bdiam,平均值-averagebdiam,厚度-bwidth,平均值-averagebwidth,样品盘质量mass,比热容capacity;
+          散热盘C直径-cdiam,平均值-averagecdiam,厚度-cwidth,平均值-averagecwidth;
+          发热盘A稳态温度atemp,平均值-averageatemp;
+          散热盘C稳态温度ctemp,平均值-averagectemp;
+          冷却过程散热盘温度的数组ctempcold，冷却速率coldrate;
+          比热容capacity,导热系数numda;
+        */
       var capacity=370.9;
       var mass=parseFloat(document.getElementById('mass').value);
       var bdiam=document.getElementsByClassName('bdiameter'),averagebdiam=0;

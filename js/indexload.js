@@ -234,7 +234,10 @@ var swiper54=new Swiper(".exp5-swiper4-container",{
   freeMode:true,
   slidesPerView: 3.5
 })
-
+var swiper55=new Swiper(".exp5-swiper5-container",{
+  freeMode:true,
+  slidesPerView: 4.5
+})
 var swiper61=new Swiper(".exp6-swiper2-container",{
   freeMode:true,
   slidesPerView: 4.5
