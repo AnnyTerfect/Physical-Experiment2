@@ -382,41 +382,21 @@
       document.getElementById('averageatemp').innerHTML=averageatemp;
       document.getElementById('averagectemp').innerHTML=averagectemp;
     /*计算发热盘A,C的稳态温度*/
-      var ctempcold=document.getElementsByClassName('ctempcold');
-      var ctempcoldnum=new Array(ctempcold.length);
-      for(var i=0;i<ctempcold.length;i++){
-        ctempcoldnum[i]=parseFloat(ctempcold[i].value);
+      var ctempcoldobj=getC('ctempcold');
+      var ctempcold = new Array(10);
+      for(var i=0;i<10;i++){
+        ctempcold[i]=parseFloat(ctempcoldobj[i].value);
       }
-    /*获取散热盘C的冷却过程的温度*/
-      ctempcoldnum.push(averagectemp);
-      function sortNumber(a,b)
-      {
-        return a-b;
-      }
-      ctempcoldnum.sort(sortNumber);
-      var cp;
-      for(var i=0;i<ctempcoldnum.length;i++){
-        if(ctempcoldnum[i]===averagectemp)
-        {
-            cp=i;
-            break;
-        }
-      }
-      /*在数组里插入T2并排序，便于计算*/
       var sum1=0,sum2=0;
-      var ctempcoldcal=new Array();
-      for(var i=cp-1;i>cp-6;i--){
-        ctempcoldcal[i]=ctempcoldnum[i]
-        sum1+=ctempcoldnum[i];
+      for(var i=0;i<5;i++){
+        sum1+=ctempcold[i];
       }
-      for(var i=cp;i<cp+5;i++){
-        ctempcoldcal[i]=ctempcoldnum[i+1];
-        sum2+=ctempcoldnum[i+1];
+      for(var i=5;i<10;i++){
+        sum2+=ctempcold[i];
       }
       var coldrate=(sum2-sum1)/(5*5*30);
-      var averagectempcold=coldrate*30;
+      var averagectempcold= (sum1+sum2)/10;
       document.getElementById('gradT').innerHTML=String(coldrate).slice(0,8);
-      /*计算散热盘冷却速率,默认输入的是降序数组,选十组数进行计算*/
     /*变量名：
       样品盘B直径-bdiam,平均值-averagebdiam,厚度-bwidth,平均值-averagebwidth;
       散热盘C直径-cdiam,平均值-averagecdiam,厚度-cwidth,平均值-averagecwidth;
@@ -425,26 +405,32 @@
       冷却过程散热盘温度的数组ctempcold，冷却速率coldrate;
       导热系数numda;
     */
-      var number1=mass*capacity*coldrate/(pi*averagebdiam*averagebdiam);
-      var number2=2*(averagecdiam+4*averagecwidth)*averagebwidth/((averageatemp-averagectemp)*(averagecdiam+2*averagecwidth));
-      var numda=number1*number2*1000;
+      var cgq1=getIvalue('cgq1'),cgq2=getIvalue('cgq2');
+      var number1=mass*capacity*fabs(coldrate)/(pi*averagebdiam*averagebdiam);
+      var number2=2*(averagecdiam+4*averagecwidth)*averagebwidth/((averageatemp-averagectemp+cgq2-cgq1)*(averagecdiam+2*averagecwidth));
+      var numda=number1*number2;
       document.getElementById('numda').innerHTML="导热系数λ="+String(numda).slice(0,8)+'W/(m·k)';
       /*计算导热系数*/
       var uaT,ubT=0.057735027,uat=0,ubt=0.057735027;/*detaT和detat的不确定度*/
       var detaT=new Array();
       for(var i=0;i<9;i++){
-        detaT[i]=ctempcoldcal[cp-4+i]-ctempcoldcal[cp-5+i];
+        detaT[i]=ctempcold[i]-ctempcold[i+1];
       }
+      var adetaT=0;
+      for(var i=0;i<detaT.length;i++){
+        adetaT+=detaT[i];
+      }
+      adetaT/=detaT.length;
       function uatcal(a){
         var ave=0,len=a.length;
         for(var i=0;i<len;i++){
-          ave+=(a[i]-averagectempcold)*(a[i]-averagectempcold);
+          ave+=(a[i]-adetaT)*(a[i]-adetaT);
         }
         return Math.sqrt(ave/(len*(len-1)));
       }
       uaT=uatcal(detaT);
       var UdetaT=Math.sqrt(stufact*stufact*uaT*uaT+ubT*ubT);
-      var exp6Ur=numda*Math.sqrt(UdetaT*UdetaT/(averagectempcold*averagectempcold)+0.0577*0.0577/900)
+      var exp6Ur=numda*Math.sqrt(UdetaT*UdetaT/(adetaT*adetaT)+0.0577*0.0577/900)
       document.getElementById('UdetaT').innerHTML='ΔT的不确定度U(ΔT)='+String(UdetaT).slice(0,8)+'°C';
       document.getElementById('Udetat').innerHTML='Δt的不确定度U(Δt)='+'0.057735'+'°C';
       document.getElementById('exp6Ur').innerHTML='不确定度='+String(exp6Ur).slice(0,8)+'°C'+'&nbsp&nbsp&nbsp&nbsp(取置信概率p=0.68)'
